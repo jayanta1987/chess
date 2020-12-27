@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title></title>
+<meta charset="UTF-8">
+<style>
+.chess-board {
+	border-spacing: 0;
+	border-collapse: collapse;
+}
+
+.chess-board th {
+	padding: .5em;
+}
+
+.chess-board td {
+	border: 1px solid;
+	width: 6em;
+	height: 6em;
+	text-align: center;
+}
+
+.chess-board .light {
+	background: #eee;
+	color: #000;
+}
+
+.chess-board .dark {
+	background: #70818e;
+	color: #fff;
+}
+</style>
+</head>
+<body>
+	<h1 align="center" style="color: #1b2e3c">Chess Master</h1>
+	<table class="chess-board" align="center">
+		<tbody>
+			<tr th:each="row : ${board}">
+				<td th:each="cell: ${row}" th:class="${cell.cssClass}">
+				<a th:href="@{'#' + ${cell.xNum} + ${cell.yNum}}" th:if="${cell.occupyingPiece != null}"><img th:src="${cell.occupyingPiece.imgName}" /></a></td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+</html>
