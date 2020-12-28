@@ -2,8 +2,10 @@ package com.chess.web;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.chess.core.Cell;
@@ -18,6 +20,12 @@ public class BoardController {
 	private BoardService boardService;
 
 	private Cell[][] board;
+	
+	@PostMapping("/calculation")
+	@ResponseBody
+	public String multiply(@ModelAttribute Move move) {
+	    return "PieceType "+move.getPiecetype()+", with xNum "+move.getXNum()+" and yNum "+move.getYNum();
+	}
 
 	@RequestMapping("/")
 	public ModelAndView index() {
@@ -30,7 +38,7 @@ public class BoardController {
 	}
 
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public ModelAndView save(@ModelAttribute User user) {
+	public ModelAndView save(@ModelAttribute Move user) {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("user-data");
 		modelAndView.addObject("user", user);

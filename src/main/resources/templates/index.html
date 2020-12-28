@@ -30,14 +30,38 @@
 	color: #fff;
 }
 </style>
+<script type="text/javascript"
+	src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+
+<script th:inline="javascript">
+	function getData(piecetype, xNum, yNum) {
+
+		data = {
+			piecetype : piecetype,
+			xNum : xNum,
+			yNum : yNum
+		};
+		// Clear container
+		url = "/calculation";
+		// Retrieve data from action method
+		var jqxhr = $.post(url, data, function(data, status, xhr) { // success callback function
+			alert('status: ' + status + ', data: ' + data.responseData);
+		}, 'json');
+
+	}
+</script>
 </head>
 <body>
 	<h1 align="center" style="color: #1b2e3c">Chess Master</h1>
+	<div id="fill"></div>
 	<table class="chess-board" align="center">
 		<tbody>
 			<tr th:each="row : ${board}">
-				<td th:each="cell: ${row}" th:class="${cell.cssClass}">
-				<a th:href="@{'#' + ${cell.xNum} + ${cell.yNum}}" th:if="${cell.occupyingPiece != null}"><img th:src="${cell.occupyingPiece.imgName}" /></a></td>
+				<td th:each="cell: ${row}" th:class="${cell.cssClass}"><a
+					th:href="@{'#' + ${cell.xNum} + ${cell.yNum}}"
+					th:attr="onclick=|getData('${cell.occupyingPiece.pieceType}', ${cell.xNum}, ${cell.yNum})|"
+					th:if="${cell.occupyingPiece != null}"><img
+						th:src="${cell.occupyingPiece.imgName}" /></a></td>
 			</tr>
 		</tbody>
 	</table>
