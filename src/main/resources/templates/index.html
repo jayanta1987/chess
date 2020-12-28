@@ -25,6 +25,18 @@
 	color: #000;
 }
 
+.chess-board .movable img {
+	border: 5px solid #56ce74;
+	padding: 1em 1em;
+	opacity: 0.35;
+}
+.chess-board .movable img:hover {
+	
+	border: 5px solid #56ce74;
+	padding: 1em 1em;
+	opacity: 0.7;
+}
+
 .chess-board .dark {
 	background: #70818e;
 	color: #fff;
@@ -48,8 +60,12 @@
 			alert('status: ' + status + ', data: ' + data.responseData);
 		}, 'json');
 
+		$("#id32").addClass("movable");
+
+		$("#id32").html('<a href="#'+piecetype+'"><img src="wqueen.png"/></a>');
 	}
 </script>
+
 </head>
 <body>
 	<h1 align="center" style="color: #1b2e3c">Chess Master</h1>
@@ -57,7 +73,8 @@
 	<table class="chess-board" align="center">
 		<tbody>
 			<tr th:each="row : ${board}">
-				<td th:each="cell: ${row}" th:class="${cell.cssClass}"><a
+				<td th:each="cell: ${row}" th:class="${cell.cssClass}"
+					th:id="'id' + ${cell.xNum} + ${cell.yNum}"><a
 					th:href="@{'#' + ${cell.xNum} + ${cell.yNum}}"
 					th:attr="onclick=|getData('${cell.occupyingPiece.pieceType}', ${cell.xNum}, ${cell.yNum})|"
 					th:if="${cell.occupyingPiece != null}"><img
