@@ -23,8 +23,10 @@ public class BoardController {
 	
 	@PostMapping("/calculation")
 	@ResponseBody
-	public String multiply(@ModelAttribute Move move) {
-	    return "PieceType "+move.getPiecetype()+", with xNum "+move.getXNum()+" and yNum "+move.getYNum();
+	public Move multiply(@ModelAttribute Move move) {
+		System.out.println("In controller..");
+		
+	    return move;
 	}
 
 	@RequestMapping("/")

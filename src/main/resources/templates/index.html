@@ -30,8 +30,8 @@
 	padding: 1em 1em;
 	opacity: 0.35;
 }
+
 .chess-board .movable img:hover {
-	
 	border: 5px solid #56ce74;
 	padding: 1em 1em;
 	opacity: 0.7;
@@ -42,27 +42,34 @@
 	color: #fff;
 }
 </style>
-<script type="text/javascript"
-	src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <script th:inline="javascript">
-	function getData(piecetype, xNum, yNum) {
+	function getData(piecetype, xNum, yNum, color) {
 
 		data = {
 			piecetype : piecetype,
 			xNum : xNum,
-			yNum : yNum
+			yNum : yNum,
+			color: color
 		};
 		// Clear container
 		url = "/calculation";
 		// Retrieve data from action method
-		var jqxhr = $.post(url, data, function(data, status, xhr) { // success callback function
-			alert('status: ' + status + ', data: ' + data.responseData);
-		}, 'json');
+		var jqxhr = $.post(url, data, function(data, status) {
+			console.log("Data: " + data.imageName + "\nStatus: " + status);
+			$("#id32").addClass("movable");
+			$("#id32").html('<a href="#'+piecetype+'"><img src="'+data.imageName+'"/></a>');
 
-		$("#id32").addClass("movable");
+		});
 
-		$("#id32").html('<a href="#'+piecetype+'"><img src="wqueen.png"/></a>');
+		jqxhr.done(function() {
+			console.log("second success");
+		}).fail(function() {
+			console.log("error");
+		});
+
 	}
 </script>
 
@@ -76,7 +83,7 @@
 				<td th:each="cell: ${row}" th:class="${cell.cssClass}"
 					th:id="'id' + ${cell.xNum} + ${cell.yNum}"><a
 					th:href="@{'#' + ${cell.xNum} + ${cell.yNum}}"
-					th:attr="onclick=|getData('${cell.occupyingPiece.pieceType}', ${cell.xNum}, ${cell.yNum})|"
+					th:attr="onclick=|getData('${cell.occupyingPiece.pieceType}', ${cell.xNum}, ${cell.yNum}, '${cell.occupyingPiece.color}')|"
 					th:if="${cell.occupyingPiece != null}"><img
 						th:src="${cell.occupyingPiece.imgName}" /></a></td>
 			</tr>
