@@ -1,5 +1,8 @@
 package com.chess.core;
 
+import lombok.AllArgsConstructor;
+
+@AllArgsConstructor
 public class Location {
 	
 	private int xNum;

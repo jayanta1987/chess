@@ -1,5 +1,8 @@
 package com.chess.web;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.chess.core.Cell;
+import com.chess.core.Location;
 import com.chess.web.services.BoardService;
 
 import lombok.AllArgsConstructor;
@@ -25,6 +29,14 @@ public class BoardController {
 	@PostMapping(value ="/checkmoves",  produces = "application/json")
 	@ResponseBody
 	public Move checkMoves(@RequestBody Move move) {
+		
+		Location location1 = new Location(5, 5);
+		Location location2 = new Location(5, 7);
+		List<Location> possibleMoves = new ArrayList<>();
+		possibleMoves.add(location1);
+		possibleMoves.add(location2);
+		move.setPossibleMoves(possibleMoves);
+		
 	    return move;
 	}
 
