@@ -14,7 +14,7 @@
 }
 
 .chess-board td {
-	border: 1px solid;
+	border: 2px solid;
 	width: 6em;
 	height: 6em;
 	text-align: center;
@@ -22,19 +22,19 @@
 
 .chess-board .light {
 	background: #eee;
-	color: #000;
+	color: #b3b3b3;
 }
 
-.chess-board .movable img {
-	border: 5px solid #56ce74;
-	padding: 1em 1em;
-	opacity: 0.35;
+.chess-board .movable {
+	border: 2px solid #00ff40;
 }
 
-.chess-board .movable img:hover {
-	border: 5px solid #56ce74;
-	padding: 1em 1em;
-	opacity: 0.7;
+.chess-board .movable img{
+	width:48px;
+}
+
+.chess-board .selected {
+	border: 2px solid #3bfff2;
 }
 
 .chess-board .dark {
@@ -47,6 +47,9 @@
 
 <script th:inline="javascript">
 	function getData(piecetype, xNum, yNum, color) {
+		
+		$("td").removeClass("selected movable");
+		$("#id" + xNum + '' + yNum).addClass("selected");
 
 		request = {
 			piecetype : piecetype,
@@ -58,21 +61,22 @@
 		};
 
 		$.ajax({
-					type : 'POST',
-					url : '/checkmoves',
-					data : JSON.stringify(request),
-					dataType : "json",
-					contentType : "application/json; charset=utf-8",
-					success : function(response) {
-						
-						
-						$.each(response.possibleMoves, function(k, v) {
-							$("#id"+v.xNum+''+v.yNum).addClass("movable");
-							$("#id"+v.xNum+''+v.yNum)
-									.html('<a href="#'+response.piecetype+'"><img src="'+response.imageName+'"/></a>');
-						});
+			type : 'POST',
+			url : '/checkmoves',
+			data : JSON.stringify(request),
+			dataType : "json",
+			contentType : "application/json; charset=utf-8",
+			success : function(response) {
+				$.each(response.possibleMoves, function(k, v) {
+					$("#id" + v.xNum + '' + v.yNum).addClass("movable");
+					htmlval = $("#id" + v.xNum + '' + v.yNum).html();
+					console.log(htmlval.trim());
+					if(htmlval.trim()==null || htmlval.trim()==""){
+						$("#id" + v.xNum + '' + v.yNum).html('<img src="blank.png" width="48px" /> ');
 					}
 				});
+			}
+		});
 
 	}
 </script>
@@ -85,7 +89,9 @@
 		<tbody>
 			<tr th:each="row : ${board}">
 				<td th:each="cell: ${row}" th:class="${cell.cssClass}"
-					th:id="'id' + ${cell.xNum} + ${cell.yNum}"><a
+					th:id="'id' + ${cell.xNum} + ${cell.yNum}">
+					
+					<a
 					th:href="@{'#' + ${cell.xNum} + ${cell.yNum}}"
 					th:attr="onclick=|getData('${cell.occupyingPiece.pieceType}', ${cell.xNum}, ${cell.yNum}, '${cell.occupyingPiece.color}')|"
 					th:if="${cell.occupyingPiece != null}"><img

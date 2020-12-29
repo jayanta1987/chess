@@ -1,10 +1,13 @@
 package com.chess.web.util;
 
+import java.util.List;
+
 import com.chess.core.Bishop;
 import com.chess.core.Cell;
 import com.chess.core.Color;
 import com.chess.core.King;
 import com.chess.core.Knight;
+import com.chess.core.Location;
 import com.chess.core.Pawn;
 import com.chess.core.Piece;
 import com.chess.core.PieceType;
@@ -28,6 +31,12 @@ public class ApplicationUtil {
 		}
 		
 		board[i][j] = cell;
+	}
+	
+	public static void validateAndAddPossibleMove(Location location, List<Location> possibleMoves) {
+		if(location.getxNum()>=0 && location.getxNum()<=7 &&  location.getyNum()>=0 && location.getyNum()<=7) {
+			possibleMoves.add(location);
+		}
 	}
 
 	public static void initializePieces(Cell[][] board, int i, int j) {

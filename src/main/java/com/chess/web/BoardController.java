@@ -30,11 +30,7 @@ public class BoardController {
 	@ResponseBody
 	public Move checkMoves(@RequestBody Move move) {
 		
-		Location location1 = new Location(5, 5);
-		Location location2 = new Location(5, 7);
-		List<Location> possibleMoves = new ArrayList<>();
-		possibleMoves.add(location1);
-		possibleMoves.add(location2);
+		List<Location> possibleMoves = boardService.findPossibleMoves(move.getCurrentLocation(), move.getPiecetype(),move.getColor());
 		move.setPossibleMoves(possibleMoves);
 		
 	    return move;
