@@ -48,27 +48,28 @@
 <script th:inline="javascript">
 	function getData(piecetype, xNum, yNum, color) {
 
-		data = {
+		request = {
 			piecetype : piecetype,
-			xNum : xNum,
-			yNum : yNum,
-			color: color
+			currentLocation : {
+				xNum : xNum,
+				yNum : yNum
+			},
+			color : color
 		};
-		// Clear container
-		url = "/calculation";
-		// Retrieve data from action method
-		var jqxhr = $.post(url, data, function(data, status) {
-			console.log("Data: " + data.imageName + "\nStatus: " + status);
-			$("#id32").addClass("movable");
-			$("#id32").html('<a href="#'+piecetype+'"><img src="'+data.imageName+'"/></a>');
 
-		});
-
-		jqxhr.done(function() {
-			console.log("second success");
-		}).fail(function() {
-			console.log("error");
-		});
+		$.ajax({
+					type : 'POST',
+					url : '/checkmoves',
+					data : JSON.stringify(request),
+					dataType : "json",
+					contentType : "application/json; charset=utf-8",
+					success : function(response) {
+						$("#id32").addClass("movable");
+						$("#id32")
+								.html(
+										'<a href="#'+response.piecetype+'"><img src="'+response.imageName+'"/></a>');
+					}
+				});
 
 	}
 </script>

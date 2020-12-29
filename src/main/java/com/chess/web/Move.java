@@ -1,40 +1,21 @@
 package com.chess.web;
 
+import java.util.List;
+
 import com.chess.core.Color;
+import com.chess.core.Location;
 import com.chess.core.PieceType;
 import com.chess.web.util.ApplicationConstants;
 
 public class Move {
-	String piecetype;
-	String xNum;
-	String yNum;
+	private String piecetype;
+		
+	private Location currentLocation;
+	
+	private List<Location> possibleMoves;
 
-	String imageName;
-	String color;
-
-	public String getPiecetype() {
-		return piecetype;
-	}
-
-	public void setPiecetype(String piecetype) {
-		this.piecetype = piecetype;
-	}
-
-	public String getxNum() {
-		return xNum;
-	}
-
-	public void setxNum(String xNum) {
-		this.xNum = xNum;
-	}
-
-	public String getyNum() {
-		return yNum;
-	}
-
-	public void setyNum(String yNum) {
-		this.yNum = yNum;
-	}
+	private String imageName;
+	private String color;
 
 	public String getImageName() {
 		if(Color.BLACK.name().equals(color)) {
@@ -67,8 +48,28 @@ public class Move {
 		
 	}
 
-	public void setImageName(String imageName) {
-		this.imageName = imageName;
+	public String getPiecetype() {
+		return piecetype;
+	}
+
+	public void setPiecetype(String piecetype) {
+		this.piecetype = piecetype;
+	}
+
+	public Location getCurrentLocation() {
+		return currentLocation;
+	}
+
+	public void setCurrentLocation(Location currentLocation) {
+		this.currentLocation = currentLocation;
+	}
+
+	public List<Location> getPossibleMoves() {
+		return possibleMoves;
+	}
+
+	public void setPossibleMoves(List<Location> possibleMoves) {
+		this.possibleMoves = possibleMoves;
 	}
 
 	public String getColor() {
@@ -78,6 +79,13 @@ public class Move {
 	public void setColor(String color) {
 		this.color = color;
 	}
+
+	public void setImageName(String imageName) {
+		this.imageName = imageName;
+	}
+
+	
+	
 
 	
 }
