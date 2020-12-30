@@ -29,16 +29,16 @@ public class BoardService {
 		return board;
 	}
 	
-	public List<Location> findPossibleMoves(Location location, String pieceType, String color) {
+	public List<Location> findPossibleMoves(Location location, String pieceType, String color, Cell[][] board) {
 		
 		List<Location> possibleMoves = new ArrayList<>();
 		if(PieceType.KNIGHT.name().equals(pieceType)) {
-			findPossibleMovesForKnight(location, possibleMoves,color);
+			findPossibleMovesForKnight(location, possibleMoves,color, board);
 		}
 		return possibleMoves;
 	}
 
-	private void findPossibleMovesForKnight(Location location, List<Location> possibleMoves, String color) {
+	private void findPossibleMovesForKnight(Location location, List<Location> possibleMoves, String color, Cell[][] board) {
 		int xNum = location.getxNum();
 		int yNum = location.getyNum();
 		
@@ -51,14 +51,14 @@ public class BoardService {
 		Location location7 = new Location(xNum-2, yNum-1);
 		Location location8 = new Location(xNum-2, yNum+1);
 
-		ApplicationUtil.validateAndAddPossibleMove(location1, possibleMoves);
-		ApplicationUtil.validateAndAddPossibleMove(location2, possibleMoves);
-		ApplicationUtil.validateAndAddPossibleMove(location3, possibleMoves);
-		ApplicationUtil.validateAndAddPossibleMove(location4, possibleMoves);
-		ApplicationUtil.validateAndAddPossibleMove(location5, possibleMoves);
-		ApplicationUtil.validateAndAddPossibleMove(location6, possibleMoves);
-		ApplicationUtil.validateAndAddPossibleMove(location7, possibleMoves);
-		ApplicationUtil.validateAndAddPossibleMove(location8, possibleMoves);
+		ApplicationUtil.validateAndAddPossibleMove(location1, possibleMoves, color, board);
+		ApplicationUtil.validateAndAddPossibleMove(location2, possibleMoves, color, board);
+		ApplicationUtil.validateAndAddPossibleMove(location3, possibleMoves, color, board);
+		ApplicationUtil.validateAndAddPossibleMove(location4, possibleMoves, color, board);
+		ApplicationUtil.validateAndAddPossibleMove(location5, possibleMoves, color, board);
+		ApplicationUtil.validateAndAddPossibleMove(location6, possibleMoves, color, board);
+		ApplicationUtil.validateAndAddPossibleMove(location7, possibleMoves, color, board);
+		ApplicationUtil.validateAndAddPossibleMove(location8, possibleMoves, color, board);
 	}
 
 	

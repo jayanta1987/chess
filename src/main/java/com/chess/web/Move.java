@@ -18,6 +18,8 @@ public class Move {
 	private Location destinationLocation;
 	
 	private List<Location> possibleMoves;
+	
+	private boolean moveAllowed;
 
 	private String imageName;
 	private String color;
@@ -95,6 +97,14 @@ public class Move {
 
 	public void setDestinationLocation(Location destinationLocation) {
 		this.destinationLocation = destinationLocation;
+	}
+
+	public boolean isMoveAllowed() {
+		return moveAllowed;
+	}
+
+	public void setMoveAllowed(boolean moveAllowed) {
+		this.moveAllowed = moveAllowed;
 	}
 
 	

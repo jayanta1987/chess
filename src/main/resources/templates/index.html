@@ -72,14 +72,14 @@
 								htmlval = $("#id" + v.xNum + '' + v.yNum).html();
 								//console.log(htmlval.trim());
 								
-								newAttr = "return movehere(this,'"+piecetype+"',"+v.xNum+","+v.yNum+",'"+color+"',"+xNum+", "+yNum+")";
+								url = "/moveHere?pieceType="+piecetype+"&xNum="+v.xNum+"&yNum="+v.yNum+"&color="+color+"&fromXNum="+xNum+"&fromYNum="+yNum;
 								
 								if (htmlval.trim() == null
 										|| htmlval.trim() == "") {
 									$("#id" + v.xNum + '' + v.yNum)
-											.html('<a href="#'+ v.xNum + '' + v.yNum+'" onclick="'+newAttr+'"><img src="blank.png" width="48px" /></a>');
+											.html('<a href="'+url+'"><img src="blank.png" width="48px" /></a>');
 								}else{
-									$("#id" + v.xNum + '' + v.yNum).find('a').attr("onclick", newAttr);
+									$("#id" + v.xNum + '' + v.yNum).find('a').attr("href", url);
 								}
 							});
 					}
@@ -89,41 +89,19 @@
 </script>
 
 <script th:inline="javascript">
-function movehere(curr,piecetype,xNum,yNum,color, fromXNum, fromYNum){
-	
-	request = {
-			piecetype : piecetype,
-			currentLocation : {
-				xNum : fromXNum,
-				yNum : fromYNum
-			},
-			destinationLocation : {
-				xNum : xNum,
-				yNum : yNum
-			},
-			color : color
-		};
-
-	$.ajax({
-		type : 'POST',
-		url : '/moveHere',
-		data : JSON.stringify(request),
-		dataType : "json",
-		contentType : "application/json; charset=utf-8",
-		success : function(response) {
-			console.log("Moving  to "+xNum+","+yNum+" with "+color+" "+piecetype+" from "+fromXNum+","+fromYNum+".");
-		}
-	});
-	
-	return false;
-}
+$(document).ready(function () {
+    // Handler for .ready() called.
+    $('html, body').animate({
+        scrollTop: $('#chessboard').offset().top
+    }, 'slow');
+});
 </script>
 
 </head>
 <body>
-	<h1 align="center" style="color: #1b2e3c">Chess Master</h1>
+	<!-- <h1 align="center" style="color: #1b2e3c">Chess Master</h1> -->
 	<div id="fill"></div>
-	<table class="chess-board" align="center">
+	<table class="chess-board" align="center" id="chessboard">
 		<tbody>
 			<tr th:each="row : ${board}">
 				<td th:each="cell: ${row}" th:class="${cell.cssClass}"
