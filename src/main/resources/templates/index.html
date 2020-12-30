@@ -90,7 +90,31 @@
 
 <script th:inline="javascript">
 function movehere(curr,piecetype,xNum,yNum,color, fromXNum, fromYNum){
-	console.log("Moving  to "+xNum+","+yNum+" with "+color+" "+piecetype+" from "+fromXNum+","+fromYNum+".");
+	
+	request = {
+			piecetype : piecetype,
+			currentLocation : {
+				xNum : fromXNum,
+				yNum : fromYNum
+			},
+			destinationLocation : {
+				xNum : xNum,
+				yNum : yNum
+			},
+			color : color
+		};
+
+	$.ajax({
+		type : 'POST',
+		url : '/moveHere',
+		data : JSON.stringify(request),
+		dataType : "json",
+		contentType : "application/json; charset=utf-8",
+		success : function(response) {
+			console.log("Moving  to "+xNum+","+yNum+" with "+color+" "+piecetype+" from "+fromXNum+","+fromYNum+".");
+		}
+	});
+	
 	return false;
 }
 </script>

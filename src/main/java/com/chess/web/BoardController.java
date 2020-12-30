@@ -34,6 +34,13 @@ public class BoardController {
 		
 	    return move;
 	}
+	
+	@PostMapping(value ="/moveHere",  produces = "application/json")
+	@ResponseBody
+	public Move moveHere(@RequestBody Move move) {
+		System.out.println("Moving Here ...."+move);
+	    return move;
+	}
 
 	@RequestMapping("/")
 	public ModelAndView index() {

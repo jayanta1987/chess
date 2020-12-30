@@ -6,11 +6,16 @@ import com.chess.core.Color;
 import com.chess.core.Location;
 import com.chess.core.PieceType;
 import com.chess.web.util.ApplicationConstants;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
+@JsonInclude(Include.NON_NULL)
 public class Move {
 	private String piecetype;
 		
 	private Location currentLocation;
+	
+	private Location destinationLocation;
 	
 	private List<Location> possibleMoves;
 
@@ -82,6 +87,14 @@ public class Move {
 
 	public void setImageName(String imageName) {
 		this.imageName = imageName;
+	}
+
+	public Location getDestinationLocation() {
+		return destinationLocation;
+	}
+
+	public void setDestinationLocation(Location destinationLocation) {
+		this.destinationLocation = destinationLocation;
 	}
 
 	
