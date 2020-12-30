@@ -29,8 +29,8 @@
 	border: 2px solid #00ff40;
 }
 
-.chess-board .movable img{
-	width:48px;
+.chess-board .movable img {
+	width: 48px;
 }
 
 .chess-board .selected {
@@ -47,7 +47,7 @@
 
 <script th:inline="javascript">
 	function getData(piecetype, xNum, yNum, color) {
-		
+
 		$("td").removeClass("selected movable");
 		$("#id" + xNum + '' + yNum).addClass("selected");
 
@@ -61,24 +61,38 @@
 		};
 
 		$.ajax({
-			type : 'POST',
-			url : '/checkmoves',
-			data : JSON.stringify(request),
-			dataType : "json",
-			contentType : "application/json; charset=utf-8",
-			success : function(response) {
-				$.each(response.possibleMoves, function(k, v) {
-					$("#id" + v.xNum + '' + v.yNum).addClass("movable");
-					htmlval = $("#id" + v.xNum + '' + v.yNum).html();
-					console.log(htmlval.trim());
-					if(htmlval.trim()==null || htmlval.trim()==""){
-						$("#id" + v.xNum + '' + v.yNum).html('<img src="blank.png" width="48px" /> ');
+					type : 'POST',
+					url : '/checkmoves',
+					data : JSON.stringify(request),
+					dataType : "json",
+					contentType : "application/json; charset=utf-8",
+					success : function(response) {
+						$.each(response.possibleMoves, function(k, v) {
+								$("#id" + v.xNum + '' + v.yNum).addClass("movable");
+								htmlval = $("#id" + v.xNum + '' + v.yNum).html();
+								//console.log(htmlval.trim());
+								
+								newAttr = "return movehere(this,'"+piecetype+"',"+v.xNum+","+v.yNum+",'"+color+"',"+xNum+", "+yNum+")";
+								
+								if (htmlval.trim() == null
+										|| htmlval.trim() == "") {
+									$("#id" + v.xNum + '' + v.yNum)
+											.html('<a href="#'+ v.xNum + '' + v.yNum+'" onclick="'+newAttr+'"><img src="blank.png" width="48px" /></a>');
+								}else{
+									$("#id" + v.xNum + '' + v.yNum).find('a').attr("onclick", newAttr);
+								}
+							});
 					}
 				});
-			}
-		});
 
 	}
+</script>
+
+<script th:inline="javascript">
+function movehere(curr,piecetype,xNum,yNum,color, fromXNum, fromYNum){
+	console.log("Moving  to "+xNum+","+yNum+" with "+color+" "+piecetype+" from "+fromXNum+","+fromYNum+".");
+	return false;
+}
 </script>
 
 </head>
@@ -89,9 +103,7 @@
 		<tbody>
 			<tr th:each="row : ${board}">
 				<td th:each="cell: ${row}" th:class="${cell.cssClass}"
-					th:id="'id' + ${cell.xNum} + ${cell.yNum}">
-					
-					<a
+					th:id="'id' + ${cell.xNum} + ${cell.yNum}"><a
 					th:href="@{'#' + ${cell.xNum} + ${cell.yNum}}"
 					th:attr="onclick=|getData('${cell.occupyingPiece.pieceType}', ${cell.xNum}, ${cell.yNum}, '${cell.occupyingPiece.color}')|"
 					th:if="${cell.occupyingPiece != null}"><img

@@ -33,12 +33,12 @@ public class BoardService {
 		
 		List<Location> possibleMoves = new ArrayList<>();
 		if(PieceType.KNIGHT.name().equals(pieceType)) {
-			findPossibleMovesForKnight(location, possibleMoves);
+			findPossibleMovesForKnight(location, possibleMoves,color);
 		}
 		return possibleMoves;
 	}
 
-	private void findPossibleMovesForKnight(Location location, List<Location> possibleMoves) {
+	private void findPossibleMovesForKnight(Location location, List<Location> possibleMoves, String color) {
 		int xNum = location.getxNum();
 		int yNum = location.getyNum();
 		
