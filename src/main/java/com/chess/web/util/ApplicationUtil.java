@@ -60,15 +60,15 @@ public class ApplicationUtil {
 			
 			Piece piece = null;
 			if (j == 0 || j == 7) {
-				piece = new Rook(Color.WHITE, cell, ApplicationConstants.RESOURCES_WROOK_PNG, PieceType.ROOK);
+				piece = new Rook(Color.WHITE, cell, ApplicationUtil.getPieceImageName(Color.WHITE, PieceType.PAWN), PieceType.ROOK);
 			} else if (j == 1 || j == 6) {
-				piece = new Knight(Color.WHITE, cell, ApplicationConstants.RESOURCES_WKNIGHT_PNG, PieceType.KNIGHT);
+				piece = new Knight(Color.WHITE, cell, ApplicationUtil.getPieceImageName(Color.WHITE, PieceType.KNIGHT), PieceType.KNIGHT);
 			} else if (j == 2 || j == 5) {
-				piece = new Bishop(Color.WHITE, cell, ApplicationConstants.RESOURCES_WBISHOP_PNG, PieceType.BISHOP);
+				piece = new Bishop(Color.WHITE, cell, ApplicationUtil.getPieceImageName(Color.WHITE, PieceType.BISHOP), PieceType.BISHOP);
 			} else if (j == 3) {
-				piece = new Queen(Color.WHITE, cell, ApplicationConstants.RESOURCES_WQUEEN_PNG, PieceType.QUEEN);
+				piece = new Queen(Color.WHITE, cell, ApplicationUtil.getPieceImageName(Color.WHITE, PieceType.QUEEN), PieceType.QUEEN);
 			} else if (j == 4) {
-				piece = new King(Color.WHITE, cell, ApplicationConstants.RESOURCES_WKING_PNG, PieceType.KING);
+				piece = new King(Color.WHITE, cell, ApplicationUtil.getPieceImageName(Color.WHITE, PieceType.KING), PieceType.KING);
 			}
 
 			cell.setOccupyingPiece(piece);
@@ -80,19 +80,19 @@ public class ApplicationUtil {
 
 		if (ApplicationConstants.BLACK_START_POSITION + 1 == i) {
 			cell.setOccupyingPiece(
-					new Pawn(Color.BLACK, cell, ApplicationConstants.RESOURCES_BPAWN_PNG, PieceType.PAWN));
+					new Pawn(Color.BLACK, cell, ApplicationUtil.getPieceImageName(Color.BLACK, PieceType.PAWN), PieceType.PAWN));
 		} else if (ApplicationConstants.BLACK_START_POSITION == i) {
 			Piece piece = null;
 			if (j == 0 || j == 7) {
-				piece = new Rook(Color.BLACK, cell, ApplicationConstants.RESOURCES_BROOK_PNG, PieceType.ROOK);
+				piece = new Rook(Color.BLACK, cell, ApplicationUtil.getPieceImageName(Color.BLACK, PieceType.ROOK), PieceType.ROOK);
 			} else if (j == 1 || j == 6) {
-				piece = new Knight(Color.BLACK, cell, ApplicationConstants.RESOURCES_BKNIGHT_PNG, PieceType.KNIGHT);
+				piece = new Knight(Color.BLACK, cell, ApplicationUtil.getPieceImageName(Color.BLACK, PieceType.KNIGHT), PieceType.KNIGHT);
 			} else if (j == 2 || j == 5) {
-				piece = new Bishop(Color.BLACK, cell, ApplicationConstants.RESOURCES_BBISHOP_PNG, PieceType.BISHOP);
+				piece = new Bishop(Color.BLACK, cell, ApplicationUtil.getPieceImageName(Color.BLACK, PieceType.BISHOP), PieceType.BISHOP);
 			} else if (j == 3) {
-				piece = new Queen(Color.BLACK, cell, ApplicationConstants.RESOURCES_BQUEEN_PNG, PieceType.QUEEN);
+				piece = new Queen(Color.BLACK, cell,ApplicationUtil.getPieceImageName(Color.BLACK, PieceType.QUEEN), PieceType.QUEEN);
 			} else if (j == 4) {
-				piece = new King(Color.BLACK, cell, ApplicationConstants.RESOURCES_BKING_PNG, PieceType.KING);
+				piece = new King(Color.BLACK, cell, ApplicationUtil.getPieceImageName(Color.BLACK, PieceType.KING), PieceType.KING);
 			}
 			cell.setOccupyingPiece(piece);
 		}
