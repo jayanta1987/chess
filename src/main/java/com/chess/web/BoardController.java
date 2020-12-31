@@ -19,7 +19,6 @@ import com.chess.core.Knight;
 import com.chess.core.Location;
 import com.chess.core.PieceType;
 import com.chess.web.services.BoardService;
-import com.chess.web.util.ApplicationConstants;
 import com.chess.web.util.ApplicationUtil;
 
 import lombok.AllArgsConstructor;
@@ -52,7 +51,7 @@ public class BoardController {
 			
 			if (ApplicationUtil.validatePossibleMove(location,  color, board)) {
 				board[xNum][yNum].setOccupyingPiece(new Knight(Color.valueOf(color), board[xNum][yNum],
-						ApplicationConstants.RESOURCES_WKNIGHT_PNG, PieceType.valueOf(pieceType)));
+						ApplicationUtil.getPieceImageName(Color.valueOf(color), PieceType.valueOf(pieceType)), PieceType.valueOf(pieceType)));
 
 				board[fromXNum][fromYNum].setOccupyingPiece(null);
 			}
@@ -78,5 +77,12 @@ public class BoardController {
 		modelAndView.setViewName("user-data");
 		modelAndView.addObject("user", user);
 		return modelAndView;
+	}
+	
+	@RequestMapping(value = "/reset", method = RequestMethod.GET)
+	public String resetGame() {
+		
+		board = null;
+		return "redirect:/";
 	}
 }
