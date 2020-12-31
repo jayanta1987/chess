@@ -17,9 +17,13 @@ import com.chess.core.Cell;
 import com.chess.core.Color;
 import com.chess.core.Knight;
 import com.chess.core.Location;
+import com.chess.core.Piece;
 import com.chess.core.PieceType;
 import com.chess.web.services.BoardService;
 import com.chess.web.util.ApplicationUtil;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.AllArgsConstructor;
 
@@ -34,29 +38,33 @@ public class BoardController {
 	@PostMapping(value = "/checkmoves", produces = "application/json")
 	@ResponseBody
 	public Move checkMoves(@RequestBody Move move) {
+		
+		Piece piece = ApplicationUtil.getPieceObject(move); 
 
-		List<Location> possibleMoves = boardService.findPossibleMoves(move.getCurrentLocation(), move.getPiecetype(),
-				move.getColor(), board);
+		List<Location> possibleMoves = boardService.findPossibleMoves(move.getCurrentLocation(), piece, board);
 		move.setPossibleMoves(possibleMoves);
 
 		return move;
 	}
 
-	@GetMapping(value = "/moveHere", produces = "application/json")
-	public String moveHere(@RequestParam int xNum, @RequestParam int yNum, @RequestParam String pieceType,
-			@RequestParam String color, @RequestParam int fromXNum, @RequestParam int fromYNum) {
+	@PostMapping(value = "/moveHere", produces = "application/json")
+	@ResponseBody
+	public Move moveHere(@RequestBody Move move) {
+		
+		Piece piece = ApplicationUtil.getPieceObject(move); 
+
 		if (null != board) {
 			
-			Location location = new Location(xNum, yNum);
+			Location destLoc = move.getDestinationLocation();
 			
-			if (ApplicationUtil.validatePossibleMove(location,  color, board)) {
-				board[xNum][yNum].setOccupyingPiece(new Knight(Color.valueOf(color), board[xNum][yNum],
-						ApplicationUtil.getPieceImageName(Color.valueOf(color), PieceType.valueOf(pieceType)), PieceType.valueOf(pieceType)));
+			if (ApplicationUtil.validatePossibleMove(destLoc,  move.getColor(), board)) {
+				board[move.getDestinationLocation().getxNum()][move.getDestinationLocation().getyNum()].setOccupyingPiece(new Knight(Color.valueOf(move.getColor()), board[move.getDestinationLocation().getxNum()][move.getDestinationLocation().getyNum()],
+						ApplicationUtil.getPieceImageName(Color.valueOf(move.getColor()), PieceType.valueOf(move.getPieceType())), PieceType.valueOf(move.getPieceType())));
 
-				board[fromXNum][fromYNum].setOccupyingPiece(null);
+				board[move.getCurrentLocation().getxNum()][move.getCurrentLocation().getyNum()].setOccupyingPiece(null);
 			}
 		}
-		return "redirect:/";
+		return move;
 	}
 
 	@RequestMapping("/")
@@ -70,14 +78,7 @@ public class BoardController {
 
 		return modelAndView;
 	}
-
-	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public ModelAndView save(@ModelAttribute Move user) {
-		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("user-data");
-		modelAndView.addObject("user", user);
-		return modelAndView;
-	}
+	
 	
 	@RequestMapping(value = "/reset", method = RequestMethod.GET)
 	public String resetGame() {

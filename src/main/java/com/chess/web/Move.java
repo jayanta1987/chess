@@ -4,14 +4,19 @@ import java.util.List;
 
 import com.chess.core.Color;
 import com.chess.core.Location;
+import com.chess.core.Piece;
 import com.chess.core.PieceType;
 import com.chess.web.util.ApplicationConstants;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonInclude(Include.NON_NULL)
 public class Move {
-	private String piecetype;
+	private String pieceType;
+	
+	@JsonProperty("piece")
+	private String piece;
 		
 	private Location currentLocation;
 	
@@ -26,28 +31,28 @@ public class Move {
 
 	public String getImageName() {
 		if(Color.BLACK.name().equals(color)) {
-			if (PieceType.QUEEN.name().equals(piecetype)) {
+			if (PieceType.QUEEN.name().equals(pieceType)) {
 				return ApplicationConstants.RESOURCES_BQUEEN_PNG;
-			}else if (PieceType.BISHOP.name().equals(this.piecetype)) {
+			}else if (PieceType.BISHOP.name().equals(this.pieceType)) {
 				return ApplicationConstants.RESOURCES_BBISHOP_PNG;
-			}else if (PieceType.KING.name().equals(this.piecetype)) {
+			}else if (PieceType.KING.name().equals(this.pieceType)) {
 				return ApplicationConstants.RESOURCES_BKING_PNG;
-			}else if (PieceType.ROOK.name().equals(this.piecetype)) {
+			}else if (PieceType.ROOK.name().equals(this.pieceType)) {
 				return ApplicationConstants.RESOURCES_BROOK_PNG;
-			}else if (PieceType.KNIGHT.name().equals(this.piecetype)) {
+			}else if (PieceType.KNIGHT.name().equals(this.pieceType)) {
 				return ApplicationConstants.RESOURCES_BKNIGHT_PNG;
 			}
 			return ApplicationConstants.RESOURCES_BPAWN_PNG;
 		}else {
-			if (PieceType.QUEEN.name().equals(piecetype)) {
+			if (PieceType.QUEEN.name().equals(pieceType)) {
 				return ApplicationConstants.RESOURCES_WQUEEN_PNG;
-			}else if (PieceType.BISHOP.name().equals(this.piecetype)) {
+			}else if (PieceType.BISHOP.name().equals(this.pieceType)) {
 				return ApplicationConstants.RESOURCES_WBISHOP_PNG;
-			}else if (PieceType.KING.name().equals(this.piecetype)) {
+			}else if (PieceType.KING.name().equals(this.pieceType)) {
 				return ApplicationConstants.RESOURCES_WKING_PNG;
-			}else if (PieceType.ROOK.name().equals(this.piecetype)) {
+			}else if (PieceType.ROOK.name().equals(this.pieceType)) {
 				return ApplicationConstants.RESOURCES_WROOK_PNG;
-			}else if (PieceType.KNIGHT.name().equals(this.piecetype)) {
+			}else if (PieceType.KNIGHT.name().equals(this.pieceType)) {
 				return ApplicationConstants.RESOURCES_WKNIGHT_PNG;
 			}
 			return ApplicationConstants.RESOURCES_WPAWN_PNG;
@@ -55,13 +60,19 @@ public class Move {
 		
 	}
 
-	public String getPiecetype() {
-		return piecetype;
+	
+
+	public String getPieceType() {
+		return pieceType;
 	}
 
-	public void setPiecetype(String piecetype) {
-		this.piecetype = piecetype;
+
+
+	public void setPieceType(String pieceType) {
+		this.pieceType = pieceType;
 	}
+
+
 
 	public Location getCurrentLocation() {
 		return currentLocation;
@@ -107,6 +118,15 @@ public class Move {
 		this.moveAllowed = moveAllowed;
 	}
 
+	public String getPiece() {
+		return piece;
+	}
+
+	public void setPiece(String piece) {
+		this.piece = piece;
+	}
+
+	
 	
 	
 

@@ -59,8 +59,13 @@ color:#70818e;
 		$("td").removeClass("selected movable");
 		$("#id" + xNum + '' + yNum).addClass("selected");
 
+		let pieceStr = JSON.stringify({
+			color: color,
+			pieceType : piecetype
+		});
 		request = {
-			piecetype : piecetype,
+			pieceType : piecetype,
+			piece : pieceStr,
 			currentLocation : {
 				xNum : xNum,
 				yNum : yNum
@@ -80,20 +85,60 @@ color:#70818e;
 								htmlval = $("#id" + v.xNum + '' + v.yNum).html();
 								//console.log(htmlval.trim());
 								
-								url = "/moveHere?pieceType="+piecetype+"&xNum="+v.xNum+"&yNum="+v.yNum+"&color="+color+"&fromXNum="+xNum+"&fromYNum="+yNum;
+								url = "##/moveHere?pieceType="+piecetype+"&xNum="+v.xNum+"&yNum="+v.yNum+"&color="+color+"&fromXNum="+xNum+"&fromYNum="+yNum;
+								onclickEvent = "return movehere('"+piecetype+"',"+v.xNum+","+v.yNum+",'"+color+"',"+ xNum+","+ yNum+")";
 								
 								if (htmlval.trim() == null
 										|| htmlval.trim() == "") {
 									$("#id" + v.xNum + '' + v.yNum)
-											.html('<a href="'+url+'"><img src="blank.png" width="48px" /></a>');
+											.html('<a href="'+url+'" onclick="'+onclickEvent+'"><img src="blank.png" width="48px" /></a>');
 								}else{
-									$("#id" + v.xNum + '' + v.yNum).find('a').attr("href", url);
+									$("#id" + v.xNum + '' + v.yNum).find('a').attr("href", url).attr("onclick",onclickEvent);
 								}
 							});
 					}
 				});
 
 	}
+</script>
+
+<script th:inline="javascript">
+function movehere(piecetype,xNum,yNum,color, fromXNum, fromYNum){
+	console.log("Moving  to "+xNum+","+yNum+" with "+color+" "+piecetype+" from "+fromXNum+","+fromYNum+".");
+
+	
+	let pieceStr = JSON.stringify({
+		color: color,
+		pieceType : piecetype
+	});
+	
+	request = {
+			piece : pieceStr,
+			pieceType : piecetype,
+			currentLocation : {
+				xNum : fromXNum,
+				yNum : fromYNum
+			},
+			destinationLocation : {
+				xNum : xNum,
+				yNum : yNum
+			},
+			color : color
+		};
+
+	$.ajax({
+		type : 'POST',
+		url : '/moveHere',
+		data : JSON.stringify(request),
+		dataType : "json",
+		contentType : "application/json; charset=utf-8",
+		success : function(response) {
+			 location.reload(true);
+		}
+	});
+
+	return false;
+}
 </script>
 
 <script th:inline="javascript">
@@ -121,6 +166,7 @@ $(document).ready(function () {
 			</tr>
 		</tbody>
 	</table>
+		
 	<div class="linkReset">
 	<a href="/reset" >Restart Game</a>
 	</div>

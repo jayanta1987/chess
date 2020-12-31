@@ -11,8 +11,33 @@ import com.chess.core.Piece;
 import com.chess.core.PieceType;
 import com.chess.core.Queen;
 import com.chess.core.Rook;
+import com.chess.web.Move;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class ApplicationUtil {
+	
+	public static Piece getPieceObject(Move move) {
+		Piece piece = null;
+		ObjectMapper objectMapper = new ObjectMapper();
+		try {
+			if(PieceType.KNIGHT.name().equals(move.getPieceType())) {
+				piece = objectMapper.readValue(move.getPiece(), Knight.class);
+			}else if(PieceType.ROOK.name().equals(move.getPieceType())) {
+				piece = objectMapper.readValue(move.getPiece(), Rook.class);
+			}else if(PieceType.BISHOP.name().equals(move.getPieceType())) {
+				piece = objectMapper.readValue(move.getPiece(), Bishop.class);
+			}else if(PieceType.QUEEN.name().equals(move.getPieceType())) {
+				piece = objectMapper.readValue(move.getPiece(), Queen.class);
+			}else if(PieceType.PAWN.name().equals(move.getPieceType())) {
+				piece = objectMapper.readValue(move.getPiece(), Pawn.class);
+			}else if(PieceType.KING.name().equals(move.getPieceType())) {
+				piece = objectMapper.readValue(move.getPiece(), King.class);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return piece;
+	}
 
 	public static void initializeCellColor(Cell[][] board, int i, int j) {
 		Cell cell = new Cell();
