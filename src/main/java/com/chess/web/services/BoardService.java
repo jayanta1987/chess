@@ -51,14 +51,31 @@ public class BoardService {
 		Location location7 = new Location(xNum-2, yNum-1);
 		Location location8 = new Location(xNum-2, yNum+1);
 
-		ApplicationUtil.validateAndAddPossibleMove(location1, possibleMoves, color, board);
-		ApplicationUtil.validateAndAddPossibleMove(location2, possibleMoves, color, board);
-		ApplicationUtil.validateAndAddPossibleMove(location3, possibleMoves, color, board);
-		ApplicationUtil.validateAndAddPossibleMove(location4, possibleMoves, color, board);
-		ApplicationUtil.validateAndAddPossibleMove(location5, possibleMoves, color, board);
-		ApplicationUtil.validateAndAddPossibleMove(location6, possibleMoves, color, board);
-		ApplicationUtil.validateAndAddPossibleMove(location7, possibleMoves, color, board);
-		ApplicationUtil.validateAndAddPossibleMove(location8, possibleMoves, color, board);
+		if(ApplicationUtil.validatePossibleMove(location1,  color, board)) {
+			possibleMoves.add(location1);
+		}
+		if(ApplicationUtil.validatePossibleMove(location2,  color, board)) {
+			possibleMoves.add(location2);
+		}
+		if(ApplicationUtil.validatePossibleMove(location3,  color, board)) {
+			possibleMoves.add(location3);
+		}
+		if(ApplicationUtil.validatePossibleMove(location4,  color, board)) {
+			possibleMoves.add(location4);
+		}
+		if(ApplicationUtil.validatePossibleMove(location5,  color, board)) {
+			possibleMoves.add(location5);
+		}
+		if(ApplicationUtil.validatePossibleMove(location6,  color, board)) {
+			possibleMoves.add(location6);
+		}
+		if(ApplicationUtil.validatePossibleMove(location7,  color, board)) {
+			possibleMoves.add(location7);
+		}
+		if(ApplicationUtil.validatePossibleMove(location8,  color, board)) {
+			possibleMoves.add(location8);
+		}
+		
 	}
 
 	

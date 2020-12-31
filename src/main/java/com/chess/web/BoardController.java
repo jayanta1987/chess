@@ -20,6 +20,7 @@ import com.chess.core.Location;
 import com.chess.core.PieceType;
 import com.chess.web.services.BoardService;
 import com.chess.web.util.ApplicationConstants;
+import com.chess.web.util.ApplicationUtil;
 
 import lombok.AllArgsConstructor;
 
@@ -46,16 +47,12 @@ public class BoardController {
 	public String moveHere(@RequestParam int xNum, @RequestParam int yNum, @RequestParam String pieceType,
 			@RequestParam String color, @RequestParam int fromXNum, @RequestParam int fromYNum) {
 		if (null != board) {
-			boolean isMoveAllowed = true;
-			if (null != board[xNum][yNum].getOccupyingPiece()
-					&& color.equals(board[xNum][yNum].getOccupyingPiece().getColor().toString())) {
-
-				isMoveAllowed = false;
-			}
-
-			if (isMoveAllowed) {
-				board[xNum][yNum].setOccupyingPiece(new Knight(Color.WHITE, board[xNum][yNum],
-						ApplicationConstants.RESOURCES_WKNIGHT_PNG, PieceType.KNIGHT));
+			
+			Location location = new Location(xNum, yNum);
+			
+			if (ApplicationUtil.validatePossibleMove(location,  color, board)) {
+				board[xNum][yNum].setOccupyingPiece(new Knight(Color.valueOf(color), board[xNum][yNum],
+						ApplicationConstants.RESOURCES_WKNIGHT_PNG, PieceType.valueOf(pieceType)));
 
 				board[fromXNum][fromYNum].setOccupyingPiece(null);
 			}

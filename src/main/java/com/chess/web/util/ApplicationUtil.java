@@ -32,23 +32,18 @@ public class ApplicationUtil {
 		board[i][j] = cell;
 	}
 
-	public static void validateAndAddPossibleMove(Location location, List<Location> possibleMoves, String pieceColor,
+	public static boolean validatePossibleMove(Location location, String pieceColor,
 			Cell[][] board) {
 
-		
 		if (location.getxNum() < 0 || location.getxNum() > 7 || location.getyNum() < 0 || location.getyNum() > 7) {
-
-			return;
-
+			return false;
 		}
-		
 		if (null != board[location.getxNum()][location.getyNum()].getOccupyingPiece() && pieceColor
 				.equals(board[location.getxNum()][location.getyNum()].getOccupyingPiece().getColor().toString())) {
-
-			return;
+			return false;
 		}
+	 return true;
 
-		possibleMoves.add(location);
 	}
 
 	public static void initializePieces(Cell[][] board, int i, int j) {
