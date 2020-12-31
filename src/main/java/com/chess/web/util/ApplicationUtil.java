@@ -85,7 +85,7 @@ public class ApplicationUtil {
 			
 			Piece piece = null;
 			if (j == 0 || j == 7) {
-				piece = new Rook(Color.WHITE, cell, ApplicationUtil.getPieceImageName(Color.WHITE, PieceType.PAWN), PieceType.ROOK);
+				piece = new Rook(Color.WHITE, cell, ApplicationUtil.getPieceImageName(Color.WHITE, PieceType.ROOK), PieceType.ROOK);
 			} else if (j == 1 || j == 6) {
 				piece = new Knight(Color.WHITE, cell, ApplicationUtil.getPieceImageName(Color.WHITE, PieceType.KNIGHT), PieceType.KNIGHT);
 			} else if (j == 2 || j == 5) {

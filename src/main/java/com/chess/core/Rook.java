@@ -1,6 +1,9 @@
 package com.chess.core;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import com.chess.web.util.ApplicationUtil;
 
 public class Rook extends Piece {
 	
@@ -12,7 +15,25 @@ public class Rook extends Piece {
 
 	@Override
 	public List<Location> findPossibleMoves(Location location, String color, Cell[][] board) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Location> possibleMoves = new ArrayList<>();
+    	
+		int xNum = location.getxNum();
+		int yNum = location.getyNum();
+		
+		while(xNum>=0) {
+			xNum --;
+			Location loc = new Location(xNum, yNum);
+			if(ApplicationUtil.validatePossibleMove(loc, color, board)) {
+				possibleMoves.add(loc);
+				if(null != board[loc.getxNum()][loc.getyNum()].getOccupyingPiece()) {
+					break;
+				}
+			}else {
+				break;
+			}
+			
+		}
+		
+		return possibleMoves;
 	}
 }
