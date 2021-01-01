@@ -20,6 +20,7 @@ public class Rook extends Piece {
 		int xNum = location.getxNum();
 		int yNum = location.getyNum();
 		
+		//UP
 		while(xNum>=0) {
 			xNum --;
 			Location loc = new Location(xNum, yNum);
@@ -33,6 +34,59 @@ public class Rook extends Piece {
 			}
 			
 		}
+		
+		xNum = location.getxNum();
+		yNum = location.getyNum();
+		//DOWN
+		while(xNum<=7) {
+			xNum ++;
+			Location loc = new Location(xNum, yNum);
+			if(ApplicationUtil.validatePossibleMove(loc, color, board)) {
+				possibleMoves.add(loc);
+				if(null != board[loc.getxNum()][loc.getyNum()].getOccupyingPiece()) {
+					break;
+				}
+			}else {
+				break;
+			}
+			
+		}
+		
+		xNum = location.getxNum();
+		yNum = location.getyNum();
+		//Left
+		while(yNum>=0) {
+			yNum --;
+			Location loc = new Location(xNum, yNum);
+			if(ApplicationUtil.validatePossibleMove(loc, color, board)) {
+				possibleMoves.add(loc);
+				if(null != board[loc.getxNum()][loc.getyNum()].getOccupyingPiece()) {
+					break;
+				}
+			}else {
+				break;
+			}
+			
+		}
+		
+		xNum = location.getxNum();
+		yNum = location.getyNum();
+		//Right
+		while(yNum<=7) {
+			yNum ++;
+			Location loc = new Location(xNum, yNum);
+			if(ApplicationUtil.validatePossibleMove(loc, color, board)) {
+				possibleMoves.add(loc);
+				if(null != board[loc.getxNum()][loc.getyNum()].getOccupyingPiece()) {
+					break;
+				}
+			}else {
+				break;
+			}
+			
+		}
+		
+		
 		
 		return possibleMoves;
 	}
