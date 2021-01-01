@@ -25,14 +25,9 @@
 	color: #b3b3b3;
 }
 
-.chess-board .movable {
-	border: 2px solid #00ff40;
-}
-
 
 .chess-board .movable img {
 	width: 48px;
-	opacity: 0.6;
 }
 
 .chess-board .selected {
@@ -48,6 +43,12 @@ text-align: center;
 margin-top:1em;
 }
 
+.killable img{
+border: 5px solid #e0aeae;
+border-radius:50%;
+padding:10px;
+}
+
 .linkReset a{
 color:#70818e;
 }
@@ -57,8 +58,15 @@ color:#70818e;
 
 <script th:inline="javascript">
 	function getData(piecetype, xNum, yNum, color) {
-
-		$("td.movable").find('a').remove();
+		
+		$("td.movable").find('a').each(function() {
+			
+			moveableImgSrc = $(this).find('img').attr('src');
+			if (moveableImgSrc.trim() == "greencircle.png") {
+				$(this).remove();
+			}
+	    });
+		
 		$("td").removeClass("selected movable");
 		$("#id" + xNum + '' + yNum).addClass("selected");
 
@@ -97,6 +105,7 @@ color:#70818e;
 											.html('<a href="'+url+'" onclick="'+onclickEvent+'"><img src="greencircle.png" width="48px" /></a>');
 								}else{
 									$("#id" + v.xNum + '' + v.yNum).find('a').attr("href", url).attr("onclick",onclickEvent);
+									$("#id" + v.xNum + '' + v.yNum).addClass("killable");
 								}
 							});
 					}
