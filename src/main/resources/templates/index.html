@@ -67,7 +67,7 @@ color:#70818e;
 			}
 	    });
 		
-		$("td").removeClass("selected movable");
+		$("td").removeClass("selected movable killable");
 		$("#id" + xNum + '' + yNum).addClass("selected");
 
 		let pieceStr = JSON.stringify({
@@ -105,6 +105,10 @@ color:#70818e;
 											.html('<a href="'+url+'" onclick="'+onclickEvent+'"><img src="greencircle.png" width="48px" /></a>');
 								}else{
 									$("#id" + v.xNum + '' + v.yNum).find('a').attr("href", url).attr("onclick",onclickEvent);
+									
+								}
+								
+								if(v.killable){
 									$("#id" + v.xNum + '' + v.yNum).addClass("killable");
 								}
 							});
