@@ -6,7 +6,7 @@ public class Location {
 	private int yNum;
 	
 	private boolean killable;
-		
+
 	public Location(int xNum, int yNum) {
 		this.xNum = xNum;
 		this.yNum = yNum;
@@ -27,6 +27,7 @@ public class Location {
 	public int getyNum() {
 		return yNum;
 	}
+
 	
 	
 	

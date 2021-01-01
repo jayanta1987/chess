@@ -98,26 +98,20 @@
 								.each(
 										response.possibleMoves,
 										function(k, v) {
+											
 											$("#id" + v.xNum + '' + v.yNum)
-													.addClass("movable");
-											htmlval = $(
-													"#id" + v.xNum + ''
-															+ v.yNum).html();
-											//console.log(htmlval.trim());
+											.addClass("movable");
+									htmlval = $(
+											"#id" + v.xNum + ''
+													+ v.yNum).html();
+									//console.log(htmlval.trim());
 
-											url = "##/moveHere?pieceType="
-													+ piecetype + "&xNum="
-													+ v.xNum + "&yNum="
-													+ v.yNum + "&color="
-													+ color + "&fromXNum="
-													+ xNum + "&fromYNum="
-													+ yNum;
-											onclickEvent = "return movehere('"
-													+ piecetype + "'," + v.xNum
-													+ "," + v.yNum + ",'"
-													+ color + "'," + xNum + ","
-													+ yNum + ")";
-
+									url = "##";
+									onclickEvent = "return movehere('"
+											+ piecetype + "'," + v.xNum
+											+ "," + v.yNum + ",'"
+											+ color + "'," + xNum + ","
+											+ yNum + ")";
 											if (htmlval.trim() == null
 													|| htmlval.trim() == "") {
 												$("#id" + v.xNum + '' + v.yNum)
@@ -131,6 +125,7 @@
 																onclickEvent);
 
 											}
+											
 
 											if (v.killable) {
 												$("#id" + v.xNum + '' + v.yNum)
