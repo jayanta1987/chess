@@ -23,13 +23,7 @@ public class Rook extends Piece {
 		//UP
 		while(xNum>=0) {
 			xNum --;
-			Location loc = new Location(xNum, yNum);
-			if(ApplicationUtil.validatePossibleMove(loc, color, board)) {
-				possibleMoves.add(loc);
-				if(null != board[loc.getxNum()][loc.getyNum()].getOccupyingPiece()) {
-					break;
-				}
-			}else {
+			if(!ApplicationUtil.validateLinearSearchLocationAndAddPossibleMove(color, board, possibleMoves, xNum, yNum)){
 				break;
 			}
 			
@@ -40,13 +34,7 @@ public class Rook extends Piece {
 		//DOWN
 		while(xNum<=7) {
 			xNum ++;
-			Location loc = new Location(xNum, yNum);
-			if(ApplicationUtil.validatePossibleMove(loc, color, board)) {
-				possibleMoves.add(loc);
-				if(null != board[loc.getxNum()][loc.getyNum()].getOccupyingPiece()) {
-					break;
-				}
-			}else {
+			if(!ApplicationUtil.validateLinearSearchLocationAndAddPossibleMove(color, board, possibleMoves, xNum, yNum)){
 				break;
 			}
 			
@@ -57,13 +45,7 @@ public class Rook extends Piece {
 		//Left
 		while(yNum>=0) {
 			yNum --;
-			Location loc = new Location(xNum, yNum);
-			if(ApplicationUtil.validatePossibleMove(loc, color, board)) {
-				possibleMoves.add(loc);
-				if(null != board[loc.getxNum()][loc.getyNum()].getOccupyingPiece()) {
-					break;
-				}
-			}else {
+			if(!ApplicationUtil.validateLinearSearchLocationAndAddPossibleMove(color, board, possibleMoves, xNum, yNum)){
 				break;
 			}
 			
@@ -74,13 +56,7 @@ public class Rook extends Piece {
 		//Right
 		while(yNum<=7) {
 			yNum ++;
-			Location loc = new Location(xNum, yNum);
-			if(ApplicationUtil.validatePossibleMove(loc, color, board)) {
-				possibleMoves.add(loc);
-				if(null != board[loc.getxNum()][loc.getyNum()].getOccupyingPiece()) {
-					break;
-				}
-			}else {
+			if(!ApplicationUtil.validateLinearSearchLocationAndAddPossibleMove(color, board, possibleMoves, xNum, yNum)){
 				break;
 			}
 			
@@ -90,4 +66,6 @@ public class Rook extends Piece {
 		
 		return possibleMoves;
 	}
+
+	
 }

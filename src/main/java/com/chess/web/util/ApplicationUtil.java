@@ -1,5 +1,7 @@
 package com.chess.web.util;
 
+import java.util.List;
+
 import com.chess.core.Bishop;
 import com.chess.core.Cell;
 import com.chess.core.Color;
@@ -128,6 +130,21 @@ public class ApplicationUtil {
 	public static String getPieceImageName(Color color, PieceType pieceType) {
 		
 		return ApplicationConstants.PIECE_IMAGE_MAP.get(pieceType.name()+"_"+color.name());
+	}
+	
+	public static boolean validateLinearSearchLocationAndAddPossibleMove(String color, Cell[][] board,
+			List<Location> possibleMoves, int xNum, int yNum) {
+		Location loc = new Location(xNum, yNum);
+		if(ApplicationUtil.validatePossibleMove(loc, color, board)) {
+			possibleMoves.add(loc);
+			if(null != board[loc.getxNum()][loc.getyNum()].getOccupyingPiece()) {
+				return false;
+			}
+		}else {
+			return false;
+		}
+		
+		return true;
 	}
 
 }
