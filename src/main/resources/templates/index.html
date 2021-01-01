@@ -60,9 +60,16 @@
 
 <script th:inline="javascript">
 	function getData(piecetype, xNum, yNum, color) {
+		
+		if($("#id" + xNum + '' + yNum).hasClass( "selected" )){
+			location.reload(true);
+			return false;
+		}
+		
+		let getDataEvent = "getData('"+piecetype+"', "+xNum+","+ yNum+", '"+color+"')";
 
 		$("td.movable").find('a').each(function() {
-
+			$(this).attr("onclick",getDataEvent);
 			moveableImgSrc = $(this).find('img').attr('src');
 			if (moveableImgSrc.trim() == "greencircle.png") {
 				$(this).remove();
@@ -132,6 +139,8 @@
 														.addClass("killable");
 											}
 										});
+						
+						
 					}
 
 				});

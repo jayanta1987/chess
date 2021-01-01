@@ -23,15 +23,45 @@ public class Pawn extends Piece {
 
 		int xNum = location.getxNum();
 		int yNum = location.getyNum();
-
-		//UP
-		Location location1 = new Location(xNum-1, yNum);
 		
-		//Right Up
-		Location location2 = new Location(xNum-1, yNum+1);
 		
-		//Left Up
-		Location location3 = new Location(xNum-1, yNum-1);
+		Location location0 = null;
+		Location location1 = null;
+		Location location2 = null;
+		Location location3 = null;
+		
+		if(color.equals(Color.WHITE.name())) {
+			//UP +1
+			if(xNum==6) {
+				location0 = new Location(xNum-2, yNum);
+			}
+			
+			//UP
+			location1 = new Location(xNum-1, yNum);
+			
+			//Right Up
+			location2 = new Location(xNum-1, yNum+1);
+			
+			//Left Up
+			location3 = new Location(xNum-1, yNum-1);
+		}else {
+			//UP +1
+			if(xNum==1) {
+				location0 = new Location(xNum+2, yNum);
+			}
+			
+			//UP
+			location1 = new Location(xNum+1, yNum);
+			
+			//Right Up
+			location2 = new Location(xNum+1, yNum-1);
+			
+			//Left Up
+			location3 = new Location(xNum+1, yNum+1);
+		}
+		if(null!=location0 && ApplicationUtil.validatePossibleMove(location0,  color, board) && !location0.isKillable()) { //Pawn can't move upside to kill opponent 
+			possibleMoves.add(location0);
+		}
 		
 		if(ApplicationUtil.validatePossibleMove(location1,  color, board) && !location1.isKillable()) { //Pawn can't move upside to kill opponent 
 			possibleMoves.add(location1);
