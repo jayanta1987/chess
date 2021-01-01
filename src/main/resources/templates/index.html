@@ -29,8 +29,10 @@
 	border: 2px solid #00ff40;
 }
 
+
 .chess-board .movable img {
 	width: 48px;
+	opacity: 0.6;
 }
 
 .chess-board .selected {
@@ -56,6 +58,7 @@ color:#70818e;
 <script th:inline="javascript">
 	function getData(piecetype, xNum, yNum, color) {
 
+		$("td.movable").find('a').remove();
 		$("td").removeClass("selected movable");
 		$("#id" + xNum + '' + yNum).addClass("selected");
 
@@ -91,12 +94,14 @@ color:#70818e;
 								if (htmlval.trim() == null
 										|| htmlval.trim() == "") {
 									$("#id" + v.xNum + '' + v.yNum)
-											.html('<a href="'+url+'" onclick="'+onclickEvent+'"><img src="blank.png" width="48px" /></a>');
+											.html('<a href="'+url+'" onclick="'+onclickEvent+'"><img src="greencircle.png" width="48px" /></a>');
 								}else{
 									$("#id" + v.xNum + '' + v.yNum).find('a').attr("href", url).attr("onclick",onclickEvent);
 								}
 							});
 					}
+					
+					
 				});
 
 	}

@@ -1,5 +1,6 @@
 package com.chess.core;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Queen extends Piece {
@@ -12,8 +13,16 @@ public class Queen extends Piece {
 
 	@Override
 	public List<Location> findPossibleMoves(Location location, String color, Cell[][] board) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		List<Location> possibleMoves = new ArrayList<>();
+		
+		Rook rook = new Rook();
+		possibleMoves.addAll(rook.findPossibleMoves(location, color, board));
+		
+		Bishop bishop = new Bishop();
+		possibleMoves.addAll(bishop.findPossibleMoves(location, color, board));
+		
+		return possibleMoves;
 	}
     
 }

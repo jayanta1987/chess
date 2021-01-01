@@ -8,13 +8,11 @@ import com.chess.core.PieceType;
 import com.chess.web.util.ApplicationUtil;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonInclude(Include.NON_NULL)
 public class Move {
 	private String pieceType;
 	
-	@JsonProperty("piece")
 	private String piece;
 		
 	private Location currentLocation;
