@@ -25,32 +25,34 @@
 	color: #b3b3b3;
 }
 
-
 .chess-board .movable img {
 	width: 48px;
 }
 
-.chess-board .selected {
-	border: 2px solid #3bfff2;
+.chess-board .selected img {
+	border: 5px solid #3bfff2;
+	border-radius: 50%;
+	padding: 10px;
 }
 
 .chess-board .dark {
 	background: #70818e;
 	color: #fff;
 }
-.linkReset{
-text-align: center;
-margin-top:1em;
+
+.linkReset {
+	text-align: center;
+	margin-top: 1em;
 }
 
-.killable img{
-border: 5px solid #e0aeae;
-border-radius:50%;
-padding:10px;
+.killable img {
+	border: 5px solid #e0aeae;
+	border-radius: 50%;
+	padding: 10px;
 }
 
-.linkReset a{
-color:#70818e;
+.linkReset a {
+	color: #70818e;
 }
 </style>
 <script
@@ -58,20 +60,20 @@ color:#70818e;
 
 <script th:inline="javascript">
 	function getData(piecetype, xNum, yNum, color) {
-		
+
 		$("td.movable").find('a').each(function() {
-			
+
 			moveableImgSrc = $(this).find('img').attr('src');
 			if (moveableImgSrc.trim() == "greencircle.png") {
 				$(this).remove();
 			}
-	    });
-		
+		});
+
 		$("td").removeClass("selected movable killable");
 		$("#id" + xNum + '' + yNum).addClass("selected");
 
 		let pieceStr = JSON.stringify({
-			color: color,
+			color : color,
 			pieceType : piecetype
 		});
 		request = {
@@ -84,53 +86,75 @@ color:#70818e;
 			color : color
 		};
 
-		$.ajax({
+		$
+				.ajax({
 					type : 'POST',
 					url : '/checkmoves',
 					data : JSON.stringify(request),
 					dataType : "json",
 					contentType : "application/json; charset=utf-8",
 					success : function(response) {
-						$.each(response.possibleMoves, function(k, v) {
-								$("#id" + v.xNum + '' + v.yNum).addClass("movable");
-								htmlval = $("#id" + v.xNum + '' + v.yNum).html();
-								//console.log(htmlval.trim());
-								
-								url = "##/moveHere?pieceType="+piecetype+"&xNum="+v.xNum+"&yNum="+v.yNum+"&color="+color+"&fromXNum="+xNum+"&fromYNum="+yNum;
-								onclickEvent = "return movehere('"+piecetype+"',"+v.xNum+","+v.yNum+",'"+color+"',"+ xNum+","+ yNum+")";
-								
-								if (htmlval.trim() == null
-										|| htmlval.trim() == "") {
-									$("#id" + v.xNum + '' + v.yNum)
-											.html('<a href="'+url+'" onclick="'+onclickEvent+'"><img src="greencircle.png" width="48px" /></a>');
-								}else{
-									$("#id" + v.xNum + '' + v.yNum).find('a').attr("href", url).attr("onclick",onclickEvent);
-									
-								}
-								
-								if(v.killable){
-									$("#id" + v.xNum + '' + v.yNum).addClass("killable");
-								}
-							});
+						$
+								.each(
+										response.possibleMoves,
+										function(k, v) {
+											$("#id" + v.xNum + '' + v.yNum)
+													.addClass("movable");
+											htmlval = $(
+													"#id" + v.xNum + ''
+															+ v.yNum).html();
+											//console.log(htmlval.trim());
+
+											url = "##/moveHere?pieceType="
+													+ piecetype + "&xNum="
+													+ v.xNum + "&yNum="
+													+ v.yNum + "&color="
+													+ color + "&fromXNum="
+													+ xNum + "&fromYNum="
+													+ yNum;
+											onclickEvent = "return movehere('"
+													+ piecetype + "'," + v.xNum
+													+ "," + v.yNum + ",'"
+													+ color + "'," + xNum + ","
+													+ yNum + ")";
+
+											if (htmlval.trim() == null
+													|| htmlval.trim() == "") {
+												$("#id" + v.xNum + '' + v.yNum)
+														.html(
+																'<a href="'+url+'" onclick="'+onclickEvent+'"><img src="greencircle.png" width="48px" /></a>');
+											} else {
+												$("#id" + v.xNum + '' + v.yNum)
+														.find('a').attr("href",
+																url).attr(
+																"onclick",
+																onclickEvent);
+
+											}
+
+											if (v.killable) {
+												$("#id" + v.xNum + '' + v.yNum)
+														.addClass("killable");
+											}
+										});
 					}
-					
-					
+
 				});
 
 	}
 </script>
 
 <script th:inline="javascript">
-function movehere(piecetype,xNum,yNum,color, fromXNum, fromYNum){
-	console.log("Moving  to "+xNum+","+yNum+" with "+color+" "+piecetype+" from "+fromXNum+","+fromYNum+".");
+	function movehere(piecetype, xNum, yNum, color, fromXNum, fromYNum) {
+		console.log("Moving  to " + xNum + "," + yNum + " with " + color + " "
+				+ piecetype + " from " + fromXNum + "," + fromYNum + ".");
 
-	
-	let pieceStr = JSON.stringify({
-		color: color,
-		pieceType : piecetype
-	});
-	
-	request = {
+		let pieceStr = JSON.stringify({
+			color : color,
+			pieceType : piecetype
+		});
+
+		request = {
 			piece : pieceStr,
 			pieceType : piecetype,
 			currentLocation : {
@@ -144,28 +168,28 @@ function movehere(piecetype,xNum,yNum,color, fromXNum, fromYNum){
 			color : color
 		};
 
-	$.ajax({
-		type : 'POST',
-		url : '/moveHere',
-		data : JSON.stringify(request),
-		dataType : "json",
-		contentType : "application/json; charset=utf-8",
-		success : function(response) {
-			 location.reload(true);
-		}
-	});
+		$.ajax({
+			type : 'POST',
+			url : '/moveHere',
+			data : JSON.stringify(request),
+			dataType : "json",
+			contentType : "application/json; charset=utf-8",
+			success : function(response) {
+				location.reload(true);
+			}
+		});
 
-	return false;
-}
+		return false;
+	}
 </script>
 
 <script th:inline="javascript">
-$(document).ready(function () {
-    // Handler for .ready() called.
-    $('html, body').animate({
-        scrollTop: $('#chessboard').offset().top
-    }, 'slow');
-});
+	$(document).ready(function() {
+		// Handler for .ready() called.
+		$('html, body').animate({
+			scrollTop : $('#chessboard').offset().top
+		}, 'slow');
+	});
 </script>
 
 </head>
@@ -184,9 +208,9 @@ $(document).ready(function () {
 			</tr>
 		</tbody>
 	</table>
-		
+
 	<div class="linkReset">
-	<a href="/reset" >Restart Game</a>
+		<a href="/reset">Restart Game</a>
 	</div>
 </body>
 </html>
