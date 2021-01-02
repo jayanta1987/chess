@@ -199,7 +199,8 @@
 </head>
 <body>
 	<!-- <h1 align="center" style="color: #1b2e3c">Chess Master</h1> -->
-	<div id="fill"></div>
+	<h4 align="center" style="color: #1b2e3c" th:utext="${displayMsg}"></h4>
+	
 	<table class="chess-board" align="center" id="chessboard">
 		<tbody>
 			<tr th:each="row : ${board}">
