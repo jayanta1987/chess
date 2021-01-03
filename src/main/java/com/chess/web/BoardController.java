@@ -41,9 +41,16 @@ public class BoardController {
 	@ResponseBody
 	public Move checkMoves(@RequestBody Move move, HttpSession session) {
 
+		Player player = gameWindow.findPlayerBySessionId(session.getId());
+		if(!player.getColor().name().equals(move.getColor())) {
+			return move;
+		}
+		
 		Piece piece = ApplicationUtil.getPieceObject(move);
 		
 		ChessBoard chessBoard = gameWindow.resumeGame(session.getId());
+		
+		chessBoard.setCurrentTurn(gameWindow.findNextTurn(Color.valueOf(move.getColor())));
 		
 		List<Location> possibleMoves = boardService.findPossibleMoves(move.getCurrentLocation(), piece, chessBoard.getBoard());
 		move.setPossibleMoves(possibleMoves);
@@ -54,6 +61,11 @@ public class BoardController {
 	@PostMapping(value = "/moveHere", produces = "application/json")
 	@ResponseBody
 	public Move moveHere(@RequestBody Move move, HttpSession session) {
+		
+		Player player = gameWindow.findPlayerBySessionId(session.getId());
+		if(!player.getColor().name().equals(move.getColor())) {
+			return move;
+		}
 
 		ChessBoard chessBoard = gameWindow.resumeGame(session.getId());
 		Cell[][] board = null;
@@ -74,6 +86,7 @@ public class BoardController {
 								PieceType.valueOf(move.getPieceType())));
 
 				board[move.getCurrentLocation().getxNum()][move.getCurrentLocation().getyNum()].setOccupyingPiece(null);
+				chessBoard.setCurrentTurn(gameWindow.findNextTurn(Color.valueOf(move.getColor())));
 			}
 		}
 		return move;
@@ -103,7 +116,7 @@ public class BoardController {
 			String sessionId1 = session.getId();
 			String sessionId2 = gameWindow.findOpponentAvailableUsers(session);
 			
-			if(null==sessionId2) {
+			if(null==sessionId2 || sessionId1.equals(sessionId2)) {
 				displayMsg = "Waiting For Opponent !!!";
 			}else {
 				chessBoard = gameWindow.startNewGame(sessionId1, sessionId2);

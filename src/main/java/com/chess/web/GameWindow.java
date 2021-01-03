@@ -35,6 +35,16 @@ public class GameWindow {
 
 		return chessboard;
 	}
+	
+	public Color findNextTurn(Color color) {
+		
+		if(color.name().equals(Color.BLACK.name())) {
+			return Color.WHITE;
+		}else {
+			return Color.BLACK;
+		}
+		
+	}
 
 	public String findOpponentAvailableUsers(HttpSession session) {
 
@@ -68,7 +78,7 @@ public class GameWindow {
 
 		deleteInactiveBoard(player1, player2);
 		Cell[][] board = new Cell[ApplicationConstants.BOARD_SIZE][ApplicationConstants.BOARD_SIZE];
-		ChessBoard chessboard = new ChessBoard(player1, player2, board, null, Status.ACTIVE);
+		ChessBoard chessboard = new ChessBoard(player1, player2, board,  Color.WHITE, null, Status.ACTIVE);
 
 		String gameId = yourSessionId + "_" + opponentSessionId;
 
