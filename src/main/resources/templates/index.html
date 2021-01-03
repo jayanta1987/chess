@@ -55,9 +55,46 @@
 	color: #70818e;
 }
 </style>
-<script
+<script 
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
+ <script th:inline="javascript"> 
+        let timer, currSeconds = 0; 
+  
+        function resetTimer() { 
+  
+           
+            /* Clear the previous interval */ 
+            clearInterval(timer); 
+  
+            /* Reset the seconds of the timer */ 
+            currSeconds = 0; 
+  
+            /* Set a new interval */ 
+            timer =  
+                setInterval(startIdleTimer, 1000); 
+        } 
+  
+        // Define the events that 
+        // would reset the timer 
+        window.onload = resetTimer; 
+        window.onmousemove = resetTimer; 
+        window.onmousedown = resetTimer; 
+        window.ontouchstart = resetTimer; 
+        window.onclick = resetTimer; 
+        window.onkeypress = resetTimer; 
+  
+        function startIdleTimer() { 
+              
+            /* Increment the 
+                timer seconds */ 
+            currSeconds++; 
+  
+  
+            if(currSeconds>5){
+            	location.reload(true);
+            }
+        } 
+    </script> 
 <script th:inline="javascript">
 	function getData(piecetype, xNum, yNum, color) {
 		

@@ -36,6 +36,14 @@ public class GameWindow {
 		return chessboard;
 	}
 	
+	public boolean duplicateTurnCheck(ChessBoard chessBoard, Player player) {
+		
+		if(chessBoard.getCurrentTurn().name().equals(player.getColor().name())) {
+			return true;
+		}
+		return false;
+	}
+	
 	public Color findNextTurn(Color color) {
 		
 		if(color.name().equals(Color.BLACK.name())) {

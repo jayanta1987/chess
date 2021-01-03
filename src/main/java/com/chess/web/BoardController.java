@@ -42,35 +42,37 @@ public class BoardController {
 	public Move checkMoves(@RequestBody Move move, HttpSession session) {
 
 		Player player = gameWindow.findPlayerBySessionId(session.getId());
-		if(!player.getColor().name().equals(move.getColor())) {
+		if (!player.getColor().name().equals(move.getColor())) {
 			return move;
 		}
-		
+
 		Piece piece = ApplicationUtil.getPieceObject(move);
-		
+
 		ChessBoard chessBoard = gameWindow.resumeGame(session.getId());
-		
-		chessBoard.setCurrentTurn(gameWindow.findNextTurn(Color.valueOf(move.getColor())));
-		
-		List<Location> possibleMoves = boardService.findPossibleMoves(move.getCurrentLocation(), piece, chessBoard.getBoard());
+		List<Location> possibleMoves = boardService.findPossibleMoves(move.getCurrentLocation(), piece,
+				chessBoard.getBoard());
 		move.setPossibleMoves(possibleMoves);
 
 		return move;
+
 	}
 
 	@PostMapping(value = "/moveHere", produces = "application/json")
 	@ResponseBody
 	public Move moveHere(@RequestBody Move move, HttpSession session) {
-		
+
 		Player player = gameWindow.findPlayerBySessionId(session.getId());
-		if(!player.getColor().name().equals(move.getColor())) {
+		if (!player.getColor().name().equals(move.getColor())) {
 			return move;
 		}
 
 		ChessBoard chessBoard = gameWindow.resumeGame(session.getId());
 		Cell[][] board = null;
-		if(null!=chessBoard) {
+		if (null != chessBoard) {
 			board = chessBoard.getBoard();
+			if(!gameWindow.duplicateTurnCheck(chessBoard, player)) {
+				return move;
+			}
 		}
 
 		if (null != board) {
@@ -96,49 +98,47 @@ public class BoardController {
 	public ModelAndView index(HttpSession session) {
 		ModelAndView modelAndView = new ModelAndView();
 		ChessBoard chessBoard = gameWindow.resumeGame(session.getId());
-		
+
 		String displayMsg = null;
 		Cell[][] board = null;
-		if(null!=chessBoard) {
-			
+		if (null != chessBoard) {
+
 			Player you = gameWindow.findPlayerBySessionId(session.getId());
-			Player opponent = gameWindow.findOpponentPlayer(session.getId());		
-					
-			String player1Msg = "You = "+you.getSessionId()+"_"+you.getColor().name();
-			String player2Msg = "Opponent = "+opponent.getSessionId()+"_"+opponent.getColor().name();
-			
-			displayMsg = player1Msg+" "+player2Msg;
-			
+			Player opponent = gameWindow.findOpponentPlayer(session.getId());
+
+			String player1Msg = "You = " + you.getSessionId() + "_" + you.getColor().name();
+			String player2Msg = "Opponent = " + opponent.getSessionId() + "_" + opponent.getColor().name();
+
+			displayMsg = player1Msg + " " + player2Msg;
+
 			board = chessBoard.getBoard();
 		}
 		modelAndView.setViewName("index");
 		if (null == board) {
 			String sessionId1 = session.getId();
 			String sessionId2 = gameWindow.findOpponentAvailableUsers(session);
-			
-			if(null==sessionId2 || sessionId1.equals(sessionId2)) {
+
+			if (null == sessionId2 || sessionId1.equals(sessionId2)) {
 				displayMsg = "Waiting For Opponent !!!";
-			}else {
+			} else {
 				chessBoard = gameWindow.startNewGame(sessionId1, sessionId2);
 				board = boardService.initializeCell(chessBoard.getBoard());
-				displayMsg = "Chess Board created by You ("+sessionId1+") with Opponent ("+sessionId2+")";
-				
-				
+				displayMsg = "Chess Board created by You (" + sessionId1 + ") with Opponent (" + sessionId2 + ")";
+
 			}
-			
-			
+
 		}
 		modelAndView.addObject("board", board);
 		modelAndView.addObject("chessBoard", chessBoard);
 		modelAndView.addObject("displayMsg", displayMsg);
-		
+
 		return modelAndView;
 	}
 
 	@RequestMapping(value = "/reset", method = RequestMethod.GET)
 	public String resetGame() {
 
-		//board = null;
+		// board = null;
 		return "redirect:/";
 	}
 }
