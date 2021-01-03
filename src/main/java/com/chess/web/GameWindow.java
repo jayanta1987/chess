@@ -21,7 +21,32 @@ public class GameWindow {
 	private static Map<String, Player> playerMap = new HashMap<>();
 
 	private static List<String> availableUsers = new ArrayList<>();
+	
+	public void printAvailableUsers(){
+		
+		for(String userSession:availableUsers) {
+			System.out.println("Available User --> "+userSession);
+		}
+		
+		
+	}
+	
+	public void printPlayerMap(){
+		
+		for (Map.Entry<String, Player> entry : playerMap.entrySet()) {
+			System.out.println("playerMap == "+entry.getKey()+" --> "+ entry.getValue());
+		}
+		
+	}
 
+	public void printRunningBoardMap(){
+		
+		for (Map.Entry<String, ChessBoard> entry : runningBoardMap.entrySet()) {
+			System.out.println("Running board == "+entry.getKey()+" --> "+ entry.getValue());
+		}
+		
+	}
+	
 	public ChessBoard resumeGame(String sessionId) {
 
 		ChessBoard chessboard = null;
@@ -58,8 +83,14 @@ public class GameWindow {
 
 		String opponentSessionID = null;
 		if (!availableUsers.isEmpty() && availableUsers.size() > 0) {
-			opponentSessionID = availableUsers.get(0);
-			availableUsers.remove(0);
+		
+			for(String availableUser:availableUsers) {
+				if(!checkPlayerOfSameColor(session.getId(), availableUser)) {
+					opponentSessionID = availableUser;
+					break;
+				}
+				
+			}
 		}
 		
 		String currentSessionId = session.getId();
@@ -70,6 +101,16 @@ public class GameWindow {
 		
 		return opponentSessionID;
 
+	}
+	
+	private boolean checkPlayerOfSameColor(String sessionId1, String sessionId2) {
+		
+			Player player1 = findPlayerBySessionId(sessionId1);
+			Player player2 = findPlayerBySessionId(sessionId2);
+			if(null!= player1 && null!=player2 && null!=player1.getColor() && null!=player2.getColor()) {
+				return player1.getColor().name().equals(player2.getColor().name());
+			}
+		 return false;
 	}
 	
 	public Player findPlayerBySessionId(String sessionId) {
@@ -91,6 +132,9 @@ public class GameWindow {
 		String gameId = yourSessionId + "_" + opponentSessionId;
 
 		runningBoardMap.put(gameId, chessboard);
+		
+		availableUsers.remove(yourSessionId);
+		availableUsers.remove(opponentSessionId);
 
 		return chessboard;
 	}

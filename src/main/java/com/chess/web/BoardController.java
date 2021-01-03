@@ -128,6 +128,11 @@ public class BoardController {
 			}
 
 		}
+		
+		gameWindow.printAvailableUsers();
+		gameWindow.printPlayerMap();
+		gameWindow.printRunningBoardMap();
+		
 		modelAndView.addObject("board", board);
 		modelAndView.addObject("chessBoard", chessBoard);
 		modelAndView.addObject("displayMsg", displayMsg);
